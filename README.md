@@ -21,11 +21,11 @@ __ingame_name__: ingame name (e.g. Standard Rear Tires)
 __tire__: refers to tire object  
   
 __prop__: properties in tire objects, intersting ones are:  
-tireWidth, radius, frictionCoef, noLoadCoef, slidingFrictionCoef, loadSensitivitySlope, fullLoadCoef
+tireWidth, radius, frictionCoef, noLoadCoef, slidingFrictionCoef, loadSensitivitySlope, fullLoadCoef, stribeckExponent, stribeckVelMult
 Some information on the properties: https://documentation.beamng.com/modding/vehicle/sections/nodes/
 
-__groups__: specify allowed tire groups in array (e.g. ["sport", "race"]), possible tire groups:  
-all, standard, rally, offroad, biasply, eco, drift, sport, sport_plus, race, drag
+__groups__: specify allowed tire groups in array (e.g. ["sport", "race"]), some of the possible tire groups:  
+all, standard, rally, offroad, crawler, eco, drift, sport, sport_plus, race, drag
 
 **Useful Functions:**
 ```py

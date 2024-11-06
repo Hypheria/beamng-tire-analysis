@@ -151,10 +151,14 @@ def main():
         if groups is None:
             groups = ["all"]
         selected_tire_data = tire_groups_dict(groups)
+        filtered_tire_data = dict() # filter tires which don't have the attribute set, doesn't apply to pi
+        for key in selected_tire_data.keys():
+            if find_value(selected_tire_data[key], prop):
+                filtered_tire_data[key] = selected_tire_data[key]
         if prop == "pi":
-            keys_sorted_by_values = sorted(selected_tire_data, key=lambda x: get_estimated_grip_index(selected_tire_data[x]), reverse=descending)
+            keys_sorted_by_values = sorted(selected_tire_data, key=lambda x: get_estimated_grip_index(tire_data[x]), reverse=descending)
         else:
-            keys_sorted_by_values = sorted(selected_tire_data, key=lambda x: find_value(selected_tire_data[x], prop), reverse=descending)
+            keys_sorted_by_values = sorted(filtered_tire_data, key=lambda x: find_value(tire_data[x], prop), reverse=descending)
         return keys_sorted_by_values[:num]
 
     # sorts tires by property and displays the first #num results
@@ -224,8 +228,6 @@ Estimated Grip Index: {get_estimated_grip_index(tire)}
     ###############################################
     # Testing Area:
     ###############################################
-
-    # possible tire groups: all, standard, rally, offroad, biasply, eco, drift, sport, sport_plus, race, drag
 
     # first_tire = tire_data[next(iter(tire_names))]
 
