@@ -11,12 +11,18 @@
 Commands are just single line python function calls, the return of the function call is printed
 
 **Some important terminonlogy / variables:**  
+  
 __tire_data__: dictionary of tire data (key : tire_object)  
+  
 __tire_key__: tire parts name (e.g. tire_R_225_75_16_standard)  
+  
 __ingame_name__: ingame name (e.g. Standard Rear Tires)  
+  
 __tire__: refers to tire object  
-__prop__: properties in tier objects, intersting ones are:  
-tireWidth, radius, frictionCoef, noLoadCoef, slidingFrictionCoef, loadSensitivitySlope, fullLoadCoef  
+  
+__prop__: properties in tire objects, intersting ones are:  
+tireWidth, radius, frictionCoef, noLoadCoef, slidingFrictionCoef, loadSensitivitySlope, fullLoadCoef
+  
 __groups__: specify allowed tire groups in array (e.g. ["sport", "race"]), possible tire groups:  
 all, standard, rally, offroad, biasply, eco, drift, sport, sport_plus, race, drag
 
