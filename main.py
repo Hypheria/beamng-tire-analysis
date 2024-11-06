@@ -178,12 +178,16 @@ def main():
         return None
 
     # function to estimate how much grip a tire produces
+    # note: this function is not perfect, sport_plus tires perform better than sport tires but are slighly worse according to this function
     # returns integer (0 if a value is not found)
     def get_estimated_grip_index(tire):
-        width = find_value(tire, 'tireWidth') or 0
-        fcoeff = find_value(tire, 'frictionCoef') or 0
-        noloadcoeff = find_value(tire, 'noLoadCoef') or 0
-        return math.floor(100 * width * fcoeff * noloadcoeff)
+        tireWidth = find_value(tire, 'tireWidth') or 0
+        frictionCoef = find_value(tire, 'frictionCoef') or 0
+        noLoadCoef = find_value(tire, 'noLoadCoef') or 0
+
+        return math.floor(tireWidth * frictionCoef * noLoadCoef * 1000) / 10
+
+
 
     # prints summary of tire given key with most important data
     def get_summary(tire_key):
@@ -197,10 +201,12 @@ Tire Summary: {tire_key} ({tire["information"]["name"]})
 Width: {width * 1000} mm
 Radius: {radius * 1000} mm
 
+Slot Type: {tire["slotType"]}
 Material: {find_value(tire, 'nodeMaterial')}
 
 Friction Coefficient: {find_value(tire, 'frictionCoef')}
 No Load Coefficient: {find_value(tire, 'noLoadCoef')}
+Full Load Coefficient: {find_value(tire, 'fullLoadCoef')}
 Load Sensitivity Slope: {find_value(tire, 'loadSensitivitySlope')}
 
 Estimated Grip Index: {get_estimated_grip_index(tire)}
