@@ -134,7 +134,7 @@ def print_sorted_by_property(prop, num=10, descending=True, groups=None):
     keys = sort_by_property(prop, num=num, descending=descending, groups=groups)
     print(f"Tires sorted by {prop}:")
     for i in range(keys.__len__()):
-        print(f"{i+1}.", keys[i], find_value(tire_data[keys[i]], prop))
+        print(f"{i+1}.", keys[i], get_estimated_grip_index(tire_data[keys[i]]) if prop == "pi" else find_value(tire_data[keys[i]], prop))
     print("\n")
 
 # get tire key based off ingame name, apparently this doesn't work for all tires (not in these files?)
