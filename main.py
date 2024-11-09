@@ -95,28 +95,41 @@ def main():
 
     # get list of keys of selected tire group(s)
     # possible groups: all, standard, drift, sport, sport_plus, race, drag
-    def tire_groups(allowed_groups):
+    def tire_groups(allowed_groups, excluding=False):
         allowed_names = []
         if "all" in allowed_groups:
-            return tire_names
-        for n in tire_names:
-            for group in allowed_groups:
-                if group in n:
+            if excluding:
+                return None
+            else:
+                return tire_names
+        if excluding:
+            for n in tire_names:
+                is_allowed = True
+                for group in allowed_groups:
+                    if group in n:
+                        is_allowed = False
+                        break
+                if is_allowed:
                     allowed_names.append(n)
+        else:
+            for n in tire_names:
+                for group in allowed_groups:
+                    if group in n:
+                        allowed_names.append(n)
         return allowed_names
 
     # get dict of tire selected group(s)
     # possible tire groups: all, standard, rally, offroad, biasply, eco, drift, sport, sport_plus, race, drag
-    def tire_groups_dict(allowed_groups):
+    def tire_groups_dict(allowed_groups, excluding=False):
         _dict = {}
-        keys = tire_groups(allowed_groups)
+        keys = tire_groups(allowed_groups, excluding)
         for key in keys:
             _dict[key] = tire_data[key]
         return _dict
 
     # helper function
-    def extreme_value(prop, _max, groups):
-        selected_tire_names = tire_groups(groups)
+    def extreme_value(prop, _max, groups, excluding=False):
+        selected_tire_names = tire_groups(groups, excluding)
         extr_val = float('-inf' if _max else 'inf')
         extr_val_name = ""
         for tire_name in selected_tire_names:
@@ -133,24 +146,24 @@ def main():
 
     # get the highest value of a certain property
     # returns (tire_name, value)
-    def highest_value(prop, groups=None):
+    def highest_value(prop, groups=None, excluding=False):
         if groups is None:
             groups = ["all"]
-        return extreme_value(prop, True, groups)
+        return extreme_value(prop, True, groups, excluding)
 
     # get the lowest value of a certain property
     # returns (tire_name, value)
-    def lowest_value(prop, groups=None):
+    def lowest_value(prop, groups=None, excluding=False):
         if groups is None:
             groups = ["all"]
-        return extreme_value(prop, False, groups)
+        return extreme_value(prop, False, groups, excluding)
 
     # sorts tires by property.  set property to "pi" to sort by estimated perf index
     # returns the first #num keys
-    def sort(prop, num=10, descending=True, groups=None):
+    def sort(prop, num=10, descending=True, groups=None, excluding=False):
         if groups is None:
             groups = ["all"]
-        selected_tire_data = tire_groups_dict(groups)
+        selected_tire_data = tire_groups_dict(groups, excluding)
         filtered_tire_data = dict() # filter tires which don't have the attribute set, doesn't apply to pi
         for key in selected_tire_data.keys():
             if find_value(selected_tire_data[key], prop):
@@ -162,10 +175,10 @@ def main():
         return keys_sorted_by_values[:num]
 
     # sorts tires by property and displays the first #num results
-    def sort_summary(prop, num=10, descending=True, groups=None):
+    def sort_summary(prop, num=10, descending=True, groups=None, excluding=False):
         if groups is None:
             groups = ["all"]
-        keys = sort(prop, num=num, descending=descending, groups=groups)
+        keys = sort(prop, num=num, descending=descending, groups=groups, excluding=excluding)
         summary = f"Tires sorted by {prop}:\n"
         for i in range(keys.__len__()):
             summary = summary + f"{i+1}. {keys[i]} {get_estimated_grip_index(tire_data[keys[i]]) if prop == "pi" else find_value(tire_data[keys[i]], prop)}\n"
