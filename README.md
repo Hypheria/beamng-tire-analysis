@@ -39,11 +39,11 @@ def get_tire_key(ingame_name : str)
 # sorts tires by property and displays the first #num results. set property to "pi" to sort by estimated perf index
 def sort_summary(prop, num=10, descending=True, groups=None, excluding=False)
 # get the highest value of a certain property, returns (tire_name, value)
-def highest_value(prop, groups=None, excluding=True)
+def highest_value(prop, groups=None, excluding=False)
 # get the lowest value of a certain property. returns (tire_name, value)
-def lowest_value(prop, groups=None, excluding=True)
+def lowest_value(prop, groups=None, excluding=False)
 # get dict of tire selected group(s)
-def tire_groups_dict(allowed_groups, excluding=True)
+def tire_groups_dict(allowed_groups, excluding=False)
 # retrieves a value in the "pressureWheels" section of the json document which contains most tire parameters
 def find_value(tire, prop)
 
