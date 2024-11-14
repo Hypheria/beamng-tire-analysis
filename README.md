@@ -30,10 +30,8 @@ Some information on the properties: https://documentation.beamng.com/modding/veh
   
 **Useful Functions:**
 ```py
-# print summary from ingame name
-def summary(ingame_name : str)
-# prints summary of tire given key with most important data
-def get_summary(tire_key : str)
+# get summary from ingame name or tire_key
+def summary(tire_name : str)
 # get tire key based off ingame name
 def get_tire_key(ingame_name : str)
 # sorts tires by property and displays the first #num results. set property to "pi" to sort by estimated perf index
@@ -48,9 +46,10 @@ def tire_groups_dict(allowed_groups, excluding=False)
 def find_value(tire, prop)
 
 # Some example command calls:
-summary("265/35R19 Sport Plus 2R Rear Tires")
-sort_summary("pi", groups=["race", "sport"])
-sort_summary("pi", descending=False)
-lowest_value("frictionCoef")
-find_value(tire_data[get_tire_key("265/35R19 Sport Plus 2R Rear Tires")], "tireWidth")
+summary("265/35R19 Sport Plus 2R Rear Tires")   # Get summary using ingame name
+summary("tire_R_31_14_15_drag")                 # Get summary using beamng parts name
+sort_summary("pi", groups=["race", "sport"])    # Sorting race and sport tires by pi
+sort_summary("pi", descending=False)            # Sorting by pi in ascending manner
+lowest_value("frictionCoef")                    # Getting the value of lowest frictionCoef and corresponding tire
+find_value(tire_data[get_tire_key("265/35R19 Sport Plus 2R Rear Tires")], "tireWidth")  # Getting the tireWidth of a tire
 ```

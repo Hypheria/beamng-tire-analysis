@@ -30,6 +30,7 @@ def parse_files(files, queue):
     return
 
 def main():
+    print(f"Full path: {COMMON_ZIP_PATH + TIRES_FOLDER}\n")
     # collect files
     all_files = []
     with zipfile.ZipFile(COMMON_ZIP_PATH, 'r') as zip_ref:
@@ -201,14 +202,24 @@ def main():
         tireWidth = find_value(tire, 'tireWidth') or 0
         frictionCoef = find_value(tire, 'frictionCoef') or 0
         noLoadCoef = find_value(tire, 'noLoadCoef') or 0
+        treadCoef = find_value(tire, 'treadCoef') or 0
 
-        return math.floor(tireWidth * frictionCoef * noLoadCoef * 1000) / 10
+        return math.floor(tireWidth * frictionCoef * noLoadCoef * 1000 * (1.1 - treadCoef)) / 10
 
 
 
     # prints summary of tire given key with most important data
-    def get_summary(tire_key):
+    def summary(tire_name):
+        # attempt to treat tire_name as ingame_name. if that fails, treat tire_name as tire_key
+        tire_key = get_tire_key(tire_name)
+        if tire_key is None:
+            tire_key = tire_name
+
         tire = tire_data[tire_key]
+
+        if tire is None:
+            return "Tire not found."
+
         # this method is inefficient since it uses find_value a lot, no issue if just called once though
         width = find_value(tire, 'tireWidth') or 0
         radius = find_value(tire, 'radius') or 0
@@ -225,18 +236,10 @@ Friction Coefficient: {find_value(tire, 'frictionCoef')}
 No Load Coefficient: {find_value(tire, 'noLoadCoef')}
 Full Load Coefficient: {find_value(tire, 'fullLoadCoef')}
 Load Sensitivity Slope: {find_value(tire, 'loadSensitivitySlope')}
+Tread Coefficient: {find_value(tire, 'treadCoef')}
 
 Estimated Grip Index: {get_estimated_grip_index(tire)}
 """
-
-    # print summary from ingame name
-    def summary(ingame_name):
-        tire = get_tire_key(ingame_name)
-        if tire is None:
-            print("Tire not found.")
-            return
-        return get_summary(tire)
-
 
     ###############################################
     # Testing Area:
